@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="springAppName">${spring.application.name}</Property>
+        <Property name="sleuthInfo">${springAppName},%X{X-B3-TraceId}</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[${sleuthInfo}] %style{%t}{bright,blue} %style{%C{1.}}{bright,red}: %msg%n%throwable"/>
+        </Console>
+
+        <RollingFile name="RollingFile"
+                     fileName="/var/log/smsParsingCCTransactions/smsParsingCCTransactions.log"
+                     filePattern="/var/log/smsParsingCCTransactions/smsParsingCCTransactions-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <pattern>%style{%d{ISO8601}}{black} %highlight{%-5level }[${sleuthInfo}][%style{%t}{bright,blue}] %style{%C{1.}}{bright,red}: %msg%n%throwable</pattern>
+                <disableAnsi>false</disableAnsi>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+
+        <Logger name="com.example.demo" level="info" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>
