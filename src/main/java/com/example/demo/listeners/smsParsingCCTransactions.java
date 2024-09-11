@@ -31,6 +31,9 @@ public class smsParsingCCTransactions {
     @Autowired
     private ccSmsTransaction ccSmsTransactionRepository;
 
+    @Autowired
+    private smsParsingCCTransactionsKafkaConfig kafkaConfig;
+
     @KafkaListener(topics = "#{smsParsingCCTransactionsKafkaConfig.getTopicNames()}",
             groupId = "#{smsParsingCCTransactionsKafkaConfig.getConsumerGroup()}",
             containerFactory = "smsParsingCCTransactionsContainerFactory"
@@ -65,7 +68,6 @@ public class smsParsingCCTransactions {
             }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
 
             // Parse the data into ccSmsTransactionsModel and insert into Cassandra
             for(SmsEvent smsEvent : smsParsingCCTransactionsModel.getData()){
@@ -123,19 +125,3 @@ public class smsParsingCCTransactions {
         );
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
