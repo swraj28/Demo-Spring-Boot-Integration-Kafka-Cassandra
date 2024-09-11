@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <Properties>
-        <Property name="springAppName">${bundle:application:spring.application.name}</Property>
-        <Property name="sleuthInfo">${springAppName},%X{X-B3-TraceId}</Property>
-    </Properties>
+<configuration>
+    <property name="LOG_DIR" value="/var/log/smsParsingCCTransactions"/>
+    <property name="LOG_FILE" value="${LOG_DIR}/smsParsingCCTransactions.log"/>
 
-    <Appenders>
-        <File name="RollingFile"
-              fileName="/var/log/smsParsingCCTransactions/smsParsingCCTransactions.log">
-            <PatternLayout>
-                <pattern>%style{%d{ISO8601}}{black} %highlight{%-5level }[${sleuthInfo}][%style{%t}{bright,blue}] %style{%C{1.}}{bright,red}: %msg%n%throwable</pattern>
-                <disableAnsi>false</disableAnsi>
-            </PatternLayout>
-        </File>
-    </Appenders>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_FILE}</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %-5level [%X{X-B3-TraceId}] [%logger{36}] - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-    <Loggers>
-        <!-- LOG everything at INFO level -->
-        <Root level="info">
-            <AppenderRef ref="RollingFile"/>
-        </Root>
+    <root level="info">
+        <appender-ref ref="FILE"/>
+    </root>
 
-        <!-- LOG "com.example.demo.listeners.smsParsingCCTransactions" at INFO level -->
-        <Logger name="com.example.demo" level="info"/>
-    </Loggers>
-</Configuration>
+    <logger name="com.example.demo" level="info" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+</configuration>
