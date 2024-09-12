@@ -3,18 +3,22 @@
     <property name="LOG_DIR" value="/var/log/smsParsingCCTransactions"/>
     <property name="LOG_FILE" value="${LOG_DIR}/smsParsingCCTransactions.log"/>
 
+
+    <!-- File appender (with color, unless you want ANSI color codes in the file) -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_FILE}</file>
         <append>true</append>
         <encoder>
-            <pattern>%d{ISO8601} [%thread] %-5level [%X{X-B3-TraceId}] [%logger{36}] - %msg%n</pattern>
+            <pattern>%highlight(%d{ISO8601}){faint} %highlight([%thread]){cyan} %highlight(%-5level){bold} [%X{X-B3-TraceId}] [%logger{36}] - %msg%n</pattern>
         </encoder>
     </appender>
 
+    <!-- Root logger for all loggers -->
     <root level="info">
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="FILE"/>    <!-- Log to file without colors -->
     </root>
 
+    <!-- Logger for specific package -->
     <logger name="com.example.demo" level="info" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
