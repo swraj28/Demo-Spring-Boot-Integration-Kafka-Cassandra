@@ -58,5 +58,4 @@ CREATE TABLE cc_sms_transaction (
     bank_code text,
     PRIMARY KEY ((customer_id, last_cc, bank_code), txn_month, amount, txn_date, sms_date_time)
 );
-
  */
