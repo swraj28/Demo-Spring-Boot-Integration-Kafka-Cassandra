@@ -39,3 +39,24 @@ public class ccSmsTransactionModel {
     private Date updatedAt;
 
 }
+
+
+/*
+
+Table Schema :-
+
+CREATE TABLE cc_sms_transaction (
+    customer_id text,
+    last_cc text,
+    txn_month text,
+    amount double,
+    txn_date text,
+    sms_date_time text,
+    is_refund boolean,
+    merchant_name text,
+    txn_type text,
+    bank_code text,
+    PRIMARY KEY ((customer_id, last_cc, bank_code), txn_month, amount, txn_date, sms_date_time)
+);
+
+ */

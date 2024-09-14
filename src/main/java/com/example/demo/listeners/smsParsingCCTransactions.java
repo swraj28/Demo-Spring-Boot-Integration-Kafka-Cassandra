@@ -31,8 +31,6 @@ public class smsParsingCCTransactions {
     @Autowired
     private ccSmsTransaction ccSmsTransactionRepository;
 
-    @Autowired
-    private smsParsingCCTransactionsKafkaConfig kafkaConfig;
 
     @KafkaListener(topics = "#{smsParsingCCTransactionsKafkaConfig.getTopicNames()}",
             groupId = "#{smsParsingCCTransactionsKafkaConfig.getConsumerGroup()}",
